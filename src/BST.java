@@ -47,11 +47,19 @@ public class BST {
      * @return true if val is in the tree, false otherwise
      */
     public boolean search(int val) {
+        BSTNode current = root;
         // TODO: Complete the search function
-        while(root.equals(val) != true){
-                if(val > root)
+        while(current.getVal() != val){
+            current = root.getRight();
+            if(current.getVal() < val)
+            {
+               current = root.getLeft();
+            }
         }
-
+        if(current.getVal() == val)
+        {
+            return true;
+        }
         return false;
     }
 
@@ -59,8 +67,10 @@ public class BST {
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
+        ArrayList<BSTNode> inorder = new ArrayList<BSTNode>();
+        inorder.add(root);
         // TODO: Complete inorder traversal
-        return null;
+        return inorder;
     }
 
     /**
