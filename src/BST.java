@@ -47,20 +47,8 @@ public class BST {
      * @return true if val is in the tree, false otherwise
      */
     public boolean search(int val) {
-        BSTNode current = root;
         // TODO: Complete the search function
-        while(current.getVal() != val){
-            current = root.getRight();
-            if(current.getVal() < val)
-            {
-               current = root.getLeft();
-            }
-        }
-        if(current.getVal() == val)
-        {
-            return true;
-        }
-        return false;
+        return helpersearch(root,val);
     }
 
     /**
@@ -68,7 +56,8 @@ public class BST {
      */
     public ArrayList<BSTNode> getInorder() {
         ArrayList<BSTNode> inorder = new ArrayList<BSTNode>();
-        inorder.add(root);
+        BSTNode current = root;
+        helper(current,inorder);
         // TODO: Complete inorder traversal
         return inorder;
     }
@@ -136,5 +125,28 @@ public class BST {
         System.out.println("\nInorder traversal of binary tree is");
         sol = tree.getInorder();
         printNodes(sol);
+    }
+    public Boolean helpersearch(BSTNode Current,int val) {
+        if(Current.equals(null))
+        {
+            return null;
+        }
+        if(Current.getVal() == val)
+        {
+            return true;
+        }
+        helpersearch(Current.getLeft(),val);
+        helpersearch(Current.getRight(),val);
+        return false;
+    }
+    public ArrayList<BSTNode> helper(BSTNode Current, ArrayList<BSTNode> inorder) {
+        if(Current.equals(null))
+        {
+            return null;
+        }
+        helper(Current.getLeft(),inorder);
+        inorder.add(Current);
+        helper(Current.getRight(),inorder);
+        return inorder;
     }
 }
