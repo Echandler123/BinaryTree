@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class BST {
     private BSTNode root;
-
     public BSTNode getRoot() {
         return this.root;
     }
@@ -46,6 +45,7 @@ public class BST {
      * @param val integer value to search for
      * @return true if val is in the tree, false otherwise
      */
+    // Makes arraylist and calls the recursive helper method
     public boolean search(int val) {
         // TODO: Complete the search function
         if(helpersearch(root,val) == false) {
@@ -57,10 +57,11 @@ public class BST {
     /**
      * @return ArrayList of BSTNodes in inorder
      */
+    // Makes arraylist and calls the recursive helper method
     public ArrayList<BSTNode> getInorder() {
         ArrayList<BSTNode> inorder = new ArrayList<BSTNode>();
         BSTNode current = root;
-        helper(current,inorder);
+        helperin(current,inorder);
         // TODO: Complete inorder traversal
         return inorder;
     }
@@ -68,6 +69,7 @@ public class BST {
     /**
      * @return ArrayList of BSTNodes in preorder
      */
+    // Makes arraylist and calls the recursive helper method
     public ArrayList<BSTNode> getPreorder() {
         // TODO: Complete preorder traversal
         ArrayList<BSTNode> preorder = new ArrayList<BSTNode>();
@@ -79,6 +81,7 @@ public class BST {
     /**
      * @return ArrayList of BSTNodes in postorder
      */
+    // Makes arraylist and calls the recursive helper method
     public ArrayList<BSTNode> getPostorder() {
         // TODO: Complete postorder traversal
         ArrayList<BSTNode> postorder = new ArrayList<BSTNode>();
@@ -93,8 +96,13 @@ public class BST {
      * root instance variable to be the root of the new modified tree.
      * @param val The value ot insert
      */
+    // Calls the recursive helper method
     public void insert(int val) {
         // TODO: Complete insert
+        if(search(val) == false) {
+            BSTNode add = new BSTNode(val);
+            helperinsert(add,root);
+        }
     }
 
     /**
@@ -135,47 +143,68 @@ public class BST {
         sol = tree.getInorder();
         printNodes(sol);
     }
-    public Boolean helpersearch(BSTNode Current,int val) {
-        if(Current == null)
-        {
-            return null;
-        }
-        else if(Current.getVal() == val)
-        {
+    // Searches the tree for a node with the same value as the value inputted
+    public boolean helpersearch(BSTNode current,int val) {
+        if(current.getVal() == val) {
             return true;
         }
-        helpersearch(Current.getLeft(),val);
-        helpersearch(Current.getRight(),val);
+        else if(current.getLeft() == null && current.getRight() == null) {
+            return false;
+        }
+        if(current.getVal() > val) {
+            return helpersearch(current.getLeft(), val);
+        }
+        if(current.getVal() < val){
+            return helpersearch(current.getRight(),val);
+        }
         return false;
     }
-    public ArrayList<BSTNode> helper(BSTNode Current, ArrayList<BSTNode> inorder) {
-        if(Current == null)
-        {
+    // Sorts the tree into an inorder arraylist
+    public ArrayList<BSTNode> helperin(BSTNode current, ArrayList<BSTNode> inorder) {
+        if(current == null) {
             return null;
         }
-        helper(Current.getLeft(),inorder);
-        inorder.add(Current);
-        helper(Current.getRight(),inorder);
+        helperin(current.getLeft(),inorder);
+        inorder.add(current);
+        helperin(current.getRight(),inorder);
         return inorder;
     }
-    public ArrayList<BSTNode> helperpre(BSTNode Current, ArrayList<BSTNode> preorder) {
-        if(Current == null)
-        {
+    // Sorts the tree into a preorder arraylist
+    public ArrayList<BSTNode> helperpre(BSTNode current, ArrayList<BSTNode> preorder) {
+        if(current == null) {
             return null;
         }
-        preorder.add(Current);
-        helper(Current.getLeft(),preorder);
-        helper(Current.getRight(),preorder);
+        preorder.add(current);
+        helperpre(current.getLeft(),preorder);
+        helperpre(current.getRight(),preorder);
         return preorder;
     }
+    // Sorts the tree into a postorder arraylist
     public ArrayList<BSTNode> helperpost(BSTNode Current, ArrayList<BSTNode> postorder) {
-        if(Current == null)
-        {
+        if(Current == null) {
             return null;
         }
-        helper(Current.getLeft(),postorder);
-        helper(Current.getRight(),postorder);
+        helperpost(Current.getLeft(),postorder);
+        helperpost(Current.getRight(),postorder);
         postorder.add(Current);
         return postorder;
+    }
+    // Inserts a node at the correct position in the tree
+    public BSTNode helperinsert(BSTNode add, BSTNode current) {
+        if(add.getVal() < current.getVal() && current.getLeft() == null) {
+            current.setLeft(add);
+            return null;
+        }
+        else if(add.getVal() > current.getVal() && current.getRight() == null ) {
+            current.setRight(add);
+            return null;
+        }
+        if(add.getVal() < current.getVal()) {
+            helperinsert(add,current.getLeft());
+        }
+        if(add.getVal() > current.getVal()) {
+            helperinsert(add,current.getRight());
+        }
+        return null;
     }
 }
