@@ -187,14 +187,12 @@ public class BST {
         return postorder;
     }
     // Inserts a node at the correct position in the tree
-    public BSTNode helperInsert(BSTNode add, BSTNode current) {
+    public void helperInsert(BSTNode add, BSTNode current) {
         if(add.getVal() < current.getVal() && current.getLeft() == null) {
             current.setLeft(add);
-            return null;
         }
         else if(add.getVal() > current.getVal() && current.getRight() == null ) {
             current.setRight(add);
-            return null;
         }
         if(add.getVal() < current.getVal()) {
             helperInsert(add,current.getLeft());
@@ -202,6 +200,5 @@ public class BST {
         if(add.getVal() > current.getVal()) {
             helperInsert(add,current.getRight());
         }
-        return null;
     }
 }
